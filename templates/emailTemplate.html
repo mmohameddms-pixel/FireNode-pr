@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .email-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .email-header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .email-body {
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .email-body h2 {
+            color: #333;
+        }
+
+        .email-body p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .email-footer {
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        @media screen and (max-width: 600px) {
+            .email-container {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .email-header {
+                padding: 15px;
+            }
+
+            .email-body {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <h1>Welcome to Our Service!</h1>
+        </div>
+        <div class="email-body">
+            <h2>Hello {{name}},</h2>
+            <p>Thank you for joining us! We are thrilled to have you on board. Below, you can find your account details
+                and start using our amazing features.</p>
+            <p>To get started, please click the button below to confirm your email address and activate your account:
+            </p>
+            <a href="{{verificationLink}}" class="btn">Confirm Email</a>
+            <p>If you have any questions, feel free to reach out to our support team at support@example.com.</p>
+        </div>
+        <div class="email-footer">
+            <p>Best Regards, <br> The Awesome Team</p>
+            <p>&copy; 2025 Awesome Company. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+
+</html>
