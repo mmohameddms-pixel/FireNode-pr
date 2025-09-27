@@ -15,7 +15,6 @@ export const sendVerificationEmail = async (name, email, token) => {
   const verificationUrl = `${config.appUrl}/auth/verify-email?token=${token}`;
 
   const emailTemplatePath = path.join(__dirname, '..', 'templates', 'emailTemplate.html');
-  console.log(emailTemplatePath);
 
   const emailTemplate = fs.readFileSync(emailTemplatePath, 'utf8');
 

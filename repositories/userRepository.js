@@ -16,11 +16,26 @@ export const getUserByEmail = async (email) => {
 
 export const createUser = async (userData) => {
     const userRef = usersRef.doc();
-    await userRef.set(userData);
+    await userRef.set({...userData, uid: userRef.id});
     return userRef.id;
 };
 
 export const setUserEmailVerified = async (uid) => {
     const userRef = usersRef.doc(uid);
     await userRef.update({ emailVerified: true });
+}
+
+export const getAllUsers = async () => {
+    const snapshot = await usersRef.get();
+    return snapshot.docs.map((doc) => doc.data());
+}
+
+export const updateUser = async (uid, userData) => {
+    const userRef = usersRef.doc(uid);
+    await userRef.update(userData);
+}
+
+export const deleteUser = async (uid) => {
+    const userRef = usersRef.doc(uid);
+    await userRef.delete();
 }

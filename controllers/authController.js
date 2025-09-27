@@ -1,11 +1,10 @@
 import { registerUser, loginUser, verifyUserEmail } from '../services/authService.js';
 import { sendVerificationEmail } from '../services/emailService.js';
-import { generateVerificationToken } from '../utils/tokenUtils.js';
+import { generateSessionToken, generateVerificationToken } from '../utils/tokenUtils.js';
 import { handleError } from '../utils/errorHandler.js';
 import { uploadFileToImgBB } from '../config/upload.js';
 
 export const register = async (req, res) => {
-  console.log('File:', req.file);
   try {
     const { email, password, name } = req.body;
 
@@ -28,7 +27,7 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await loginUser(email, password);
-    const token = generateVerificationToken(user.uid);
+    const token = generateSessionToken(user.uid, user.role);
 
     res.status(200).json({ message: 'Login successful', token });
   } catch (err) {
