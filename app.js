@@ -5,8 +5,8 @@ import userRoutes from "./routes/user.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 import morgan from 'morgan';
 import helmet from 'helmet';
-
-
+import authRoutes from "./routes/auth.routes.js";
+import postRoutes from "./routes/post.routes.js";
 
 const app = express();
 
@@ -21,6 +21,9 @@ app.get("/health", (req, res) => {
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 app.use("/admin", adminRoutes);
+
+app.use(postRoutes)
+
 
 app.listen(3000, () => {
     console.log(`Server running on http://localhost:3000`);

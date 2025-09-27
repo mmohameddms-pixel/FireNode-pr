@@ -1,7 +1,9 @@
 # FireNode Blog
 
 ## Overview
+
 **FireNode Blog** is a full-stack application built with Node.js that provides a blogging platform with advanced features including:
+
 - **JWT-based user authentication** and **bcrypt password hashing**.
 - **Role-based access control** (user and admin roles).
 - **Email verification** for users.
@@ -14,6 +16,7 @@ This project is designed to allow users to post content, interact with others th
 ---
 
 ## Features
+
 - **JWT Authentication**: Secure login system with JSON Web Tokens for user validation.
 - **Role-based Access Control**: Users have limited access to their own content, while admins can manage all posts and users.
 - **CRUD Operations**:
@@ -29,6 +32,7 @@ This project is designed to allow users to post content, interact with others th
 ---
 
 ## Technologies Used
+
 - **Node.js**: Backend server and API logic.
 - **Express.js**: Web framework for routing.
 - **JWT (JSON Web Token)**: Authentication and authorization for secure API access.
@@ -41,7 +45,8 @@ This project is designed to allow users to post content, interact with others th
 
 ## Installation
 
-### Clone the repository:
+### Clone the repository
+
 ```bash
 git clone https://github.com/your-username/FireNode-Blog.git
 cd FireNode-Blog
