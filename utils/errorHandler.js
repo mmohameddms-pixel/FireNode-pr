@@ -24,6 +24,10 @@ export const handleError = (res, error) => {
     return res.status(400).json({ message: 'Verification token is required' });
   }
 
+  if (error.message === 'Invalid or expired token') {
+    return res.status(401).json({ message: 'Invalid or expired token' });
+  }
+
   // Catch general unexpected errors
   console.error(error); // Log the error for debugging
   return res.status(500).json({ message: 'Internal server error' });

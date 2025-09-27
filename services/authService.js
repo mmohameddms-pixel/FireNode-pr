@@ -35,5 +35,7 @@ export const loginUser = async (email, password) => {
 
 export const verifyUserEmail = (token) => {
   const decoded = jwt.verify(token, config.jwt.secretKey);
+  if (!decoded)
+    throw new Error('Invalid or expired token');
   setUserEmailVerified(decoded.uid);
 }
