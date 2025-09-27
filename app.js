@@ -1,5 +1,8 @@
 import express from "express";
 import { db } from "./config/firebase.js";
+import authRoutes from "./routes/auth.routes.js";
+import userRoutes from "./routes/user.routes.js";
+import adminRoutes from "./routes/admin.routes.js";
 import morgan from 'morgan';
 import helmet from 'helmet';
 import authRoutes from "./routes/auth.routes.js";
@@ -16,6 +19,8 @@ app.get("/health", (req, res) => {
 });
 // ------------------ Endpoints ------------------
 app.use("/auth", authRoutes);
+app.use("/user", userRoutes);
+app.use("/admin", adminRoutes);
 
 app.use(postRoutes)
 
