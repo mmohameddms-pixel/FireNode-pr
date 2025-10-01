@@ -1,5 +1,7 @@
 import jwt from "jsonwebtoken";
-import { SECRET_KEY } from "../config/token.js";
+import { config } from '../config/config.js';
+
+const SECRET_KEY = config.jwt.secretKey;
 
 export const authenticate = (req, res, next) => {
   const token = req.headers.authorization;

@@ -15,7 +15,8 @@ export const updateProfile = async (req, res) => {
         const updates = req.body;
 
         if (req.file) {
-            const imageUrl = req.file?.path ? await uploadFileToImgBB(req.file.path) : null;
+            const fileBuffer = req.file.buffer;
+            const imageUrl = fileBuffer ? await uploadFileToImgBB(fileBuffer) : null;
 
             updates.profileImage = imageUrl?.url ?? null;
         }
