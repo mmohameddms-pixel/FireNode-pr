@@ -5,8 +5,9 @@ import userRoutes from "./routes/user.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 import morgan from 'morgan';
 import helmet from 'helmet';
-import authRoutes from "./routes/auth.routes.js";
+// import authRoutes from "./routes/auth.routes.js";
 import postRoutes from "./routes/post.routes.js";
+import commentRoutes from "./routes/comment.routes.js";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.get("/health", (req, res) => {
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 app.use("/admin", adminRoutes);
+app.use("/comments", commentRoutes);
 
 app.use(postRoutes)
 
