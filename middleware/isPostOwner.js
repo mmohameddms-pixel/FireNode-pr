@@ -1,12 +1,14 @@
+import postRef from "../models/postModel.js";
 
-export const isPostOwner = (req, res, next) => {
+export const isPostOwner = async (req, res, next) => {
     const postId = req.params.id;
-    const userId = req.user.id;
+    const userId = req.user.uid;
+    console.log(userId)
+    const post = (await postRef.doc(postId).get()).data();
 
-    Post.findOne({ where: { id: postId } }).then(post => {
-        if (!post || post.userId !== userId) {
-            return res.status(403).json({ message: 'Forbidden: You can only modify your own posts' });
-        }
-        next();
-    });
+    if (!post || post.userID !== userId) {
+        return res.status(403).json({ message: 'Forbidden: You can only modify your own posts' });
+    }
+
+    next();
 }
