@@ -17,13 +17,14 @@ const addPost = async (req, res) => {
     }
 
     const { title, content } = req.body;
-    const image = req.file ? req.file.filename : null;
-    const imageUrl = req.file ? (await uploadFileToImgBB(req.file.path)) : null;
+
+    const fileBuffer = req.file.buffer;
+    const imageUrl = fileBuffer ? (await uploadFileToImgBB(fileBuffer)) : null;
 
     try {
         await postRef.add({
             title, content,
-            userImage: image ? imageUrl.url : null,
+            userImage: fileBuffer ? imageUrl.url : null,
             createdAt: Date.now(), updatedAt: null, userID
         });
 
@@ -31,7 +32,7 @@ const addPost = async (req, res) => {
             msg: "Post is added",
             title,
             content,
-            userImage: image ? imageUrl.url : null,
+            userImage: fileBuffer ? imageUrl.url : null,
             createdAt: Date.now(),
             updatedAt: null,
             userID
