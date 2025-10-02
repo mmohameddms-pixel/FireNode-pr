@@ -2,6 +2,7 @@
 import postRef from '../models/postModel.js'
 import { uploadFileToImgBB } from '../config/upload.js';
 import { validationResult } from 'express-validator';
+import { Timestamp } from 'firebase-admin/firestore';
 
 const addPost = async (req, res) => {
 
@@ -11,9 +12,9 @@ const addPost = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const userID = req.user.id;
+    const userID = req.user.uid;
     if (!userID) {
-        return res.status(400).send("Login First")
+        return res.status(400).send("Login First" + userID)
     }
 
     const { title, content } = req.body;
@@ -24,16 +25,16 @@ const addPost = async (req, res) => {
     try {
         await postRef.add({
             title, content,
-            userImage: fileBuffer ? imageUrl.url : null,
-            createdAt: Date.now(), updatedAt: null, userID
+            photo: fileBuffer ? imageUrl.url : null,
+            createdAt: Timestamp.now(), updatedAt: null, userID
         });
 
         res.status(200).json({
             msg: "Post is added",
             title,
             content,
-            userImage: fileBuffer ? imageUrl.url : null,
-            createdAt: Date.now(),
+            photo: fileBuffer ? imageUrl.url : null,
+            createdAt: Timestamp.now(),
             updatedAt: null,
             userID
         })
@@ -67,7 +68,7 @@ const getUserPosts = async (req, res) => {
             return res.status(404).json({ msg: 'No posts found' });
         }
 
-        const userID = req.user.id;
+        const userID = req.user.uid;
         const userPosts = [];
         snapshot.forEach(doc => {
             if (userID == doc.data().userID) {
@@ -83,8 +84,9 @@ const getUserPosts = async (req, res) => {
 const getSinglePost = async (req, res) => {
 
     try {
-        const singlePost = (await postRef.doc(req.params.id).get()).data();
-        res.status(200).json({ msg: `single Post`, singlePost })
+        const postId = req.params.id;
+        const singlePost = (await postRef.doc(postId).get()).data();
+        res.status(200).json({ msg: `single Post`, postId, singlePost })
     } catch (error) {
         res.status(500).json({ msg: 'Error single post', error: error.message });
 
@@ -93,15 +95,29 @@ const getSinglePost = async (req, res) => {
 
 const updatePost = async (req, res) => {
     const updatedPost = req.body;
+    console.log(updatePost)
+    const postId = req.params.id;
+
+    if (!updatedPost || Object.keys(updatedPost).length === 0) {
+        return res.status(400).json({ msg: 'No data provided to update' });
+    }
+    
     try {
-        await postRef.doc(req.params.id).update({
+        const postSnapshot = await postRef.doc(postId).get();
+
+        if (!postSnapshot.exists) {
+            return res.status(404).json({ msg: 'Post not found' });
+        }
+
+        // Update the post
+        await postRef.doc(postId).update({
             ...updatedPost,
-            updatedAt: Date.now(),
+            updatedAt: Timestamp.now(),  // Set updatedAt to the current timestamp
         });
-        res.status(200).json({ msg: `Updated Post`, updatedPost })
+
+        res.status(200).json({ msg: 'Post updated successfully', updatedPost });
     } catch (error) {
         res.status(500).json({ msg: 'Error update post', error: error.message });
-
     }
 }
 
@@ -116,6 +132,7 @@ const deletePost = async (req, res) => {
 
 const deleteAnyPost = async (req, res) => {
     try {
+        console.log("deleteeee")
         await postRef.doc(req.params.id).delete();
         res.status(200).send('Post deleted')
     } catch (error) {

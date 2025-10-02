@@ -13,13 +13,13 @@ postRoutes.get('/posts', authenticate, getAllPosts);
 
 postRoutes.get('/posts/:id', authenticate, getSinglePost);
 
-postRoutes.get('/user/posts', isPostOwner, getUserPosts);
+postRoutes.get('/user/posts', authenticate, getUserPosts);
 
-postRoutes.put('user/posts/:id', isPostOwner, updatePost);
+postRoutes.put('/user/posts/:id', upload.none(), authenticate, isPostOwner, updatePost);
 
-postRoutes.delete('user/posts/:id', isPostOwner, deletePost);
+postRoutes.delete('/user/posts/:id', authenticate, isPostOwner, deletePost);
 
-postRoutes.delete('admin/posts/:id', isAdmin, deleteAnyPost);
+postRoutes.delete('/admin/posts/:id', authenticate, isAdmin, deleteAnyPost);
 
 
 export default postRoutes;
