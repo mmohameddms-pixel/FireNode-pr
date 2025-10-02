@@ -1,15 +1,5 @@
 import multer from 'multer';
 import imgbbUploader from 'imgbb-uploader';
-
-// const storage = multer.diskStorage({
-//     destination: function (req, file, cb) {
-//         cb(null, 'uploads/');
-//     },
-//     filename: function (req, file, cb) {
-//         // Set a unique filename for each uploaded file using timestamp
-//         cb(null, `${Date.now()}-${file.originalname}`);
-//     },
-// });
 const storage = multer.memoryStorage();
 
 export const upload = multer({ storage: storage });
