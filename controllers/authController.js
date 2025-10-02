@@ -11,8 +11,8 @@ import jwt from "jsonwebtoken";
 export const register = async (req, res) => {
   try {
     const { email, password, name } = req.body;
-
-    const imageUrl = req.file?.path ? await uploadFileToImgBB(req.file.path) : null;
+            const fileBuffer = req.file.buffer;
+    const imageUrl = fileBuffer ? await uploadFileToImgBB(fileBuffer) : null;
 
     const user = await registerUser(email, password, name, imageUrl?.url ?? null);
 
@@ -40,19 +40,12 @@ export const login = async (req, res) => {
 };
 
 export const verifyEmail = async (req, res) => {
-  // try {
-  //   const { token } = req.query;
-  //   await verifyUserEmail(token);
-  //   res.status(200).json({ message: 'Email verified successfully, you can login now.' });
-  // } catch (err) {
-  //   handleError(res, err);
-  // }
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
 
   try {
     const { token } = req.query;
-    const verificationResult = await verifyUserEmail(token);
+    await verifyUserEmail(token);
 
     // Serve the success HTML page after email verification
     const successHtmlPath = path.join(__dirname, '..', 'templates', 'verificationSuccess.html');
