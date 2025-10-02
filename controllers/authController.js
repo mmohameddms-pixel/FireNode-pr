@@ -3,7 +3,11 @@ import { sendVerificationEmail } from '../services/emailService.js';
 import { generateSessionToken, generateVerificationToken } from '../utils/tokenUtils.js';
 import { handleError } from '../utils/errorHandler.js';
 import { uploadFileToImgBB } from '../config/upload.js';
-
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+import { getUserById } from '../repositories/userRepository.js';
+import jwt from "jsonwebtoken";
 export const register = async (req, res) => {
   try {
     const { email, password, name } = req.body;
@@ -36,10 +40,63 @@ export const login = async (req, res) => {
 };
 
 export const verifyEmail = async (req, res) => {
+  // try {
+  //   const { token } = req.query;
+  //   await verifyUserEmail(token);
+  //   res.status(200).json({ message: 'Email verified successfully, you can login now.' });
+  // } catch (err) {
+  //   handleError(res, err);
+  // }
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+
   try {
     const { token } = req.query;
-    await verifyUserEmail(token);
-    res.status(200).json({ message: 'Email verified successfully, you can login now.' });
+    const verificationResult = await verifyUserEmail(token);
+
+    // Serve the success HTML page after email verification
+    const successHtmlPath = path.join(__dirname, '..', 'templates', 'verificationSuccess.html');
+    const successHtml = fs.readFileSync(successHtmlPath, 'utf8');
+    res.status(200).send(successHtml);  // Send the success response page
+
+  } catch (err) {
+    // Serve the error HTML page if verification failed
+    const errorHtmlPath = path.join(__dirname, '..', 'templates', 'verificationError.html');
+    const errorHtml = fs.readFileSync(errorHtmlPath, 'utf8');
+    res.status(400).send(errorHtml);
+  }
+};
+
+export const resendVerificationEmail = async (req, res) => {
+  try {
+    const { token } = req.body;
+
+    if (!token) {
+      return res.status(400).json({ message: 'Verification token is required' });
+    }
+
+    const decoded = jwt.decode(token);
+
+    if (!decoded || !decoded.uid) {
+      return res.status(400).json({ message: 'Invalid or corrupted token' });
+    }
+
+    const user = await getUserById(decoded.uid);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (user.emailVerified) {
+      return res.status(400).json({ message: 'Your email is already verified' });
+    }
+
+    const newToken = generateVerificationToken(user.uid);
+    await sendVerificationEmail(user.name, user.email, newToken);
+
+    res.status(200).json({
+      message: 'A new verification email has been sent to your email address.',
+    });
   } catch (err) {
     handleError(res, err);
   }

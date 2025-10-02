@@ -12,6 +12,8 @@ const app = express();
 app.use(helmet());
 app.use(express.json());
 app.use(morgan('dev'));
+app.use(express.static('public'));
+
 app.get("/health", (req, res) => {
     // check db connection status
     res.json(JSON.stringify(db));
