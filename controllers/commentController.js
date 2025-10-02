@@ -1,7 +1,7 @@
 // controllers/commentController.js
-const CommentModel = require("../models/commentModel");
-
-exports.createComment = async (req, res) => {
+// const CommentModel = require("../models/commentModel");
+import CommentModel from "../models/commentModel.js";
+export const createComment = async (req, res) => {
   try {
     const { postId, content } = req.body;
     const userId = req.user.id;
@@ -13,7 +13,7 @@ exports.createComment = async (req, res) => {
   }
 };
 
-exports.getCommentsByPost = async (req, res) => {
+export const getCommentsByPost = async (req, res) => {
   try {
     const { postId } = req.params;
     const comments = await CommentModel.getCommentsByPost(postId);
@@ -23,7 +23,7 @@ exports.getCommentsByPost = async (req, res) => {
   }
 };
 
-exports.updateComment = async (req, res) => {
+export const updateComment = async (req, res) => {
   try {
     const { commentId } = req.params;
     const { content } = req.body;
@@ -37,7 +37,7 @@ exports.updateComment = async (req, res) => {
   }
 };
 
-exports.deleteComment = async (req, res) => {
+export const deleteComment = async (req, res) => {
   try {
     const { commentId } = req.params;
     const userId = req.user.id;

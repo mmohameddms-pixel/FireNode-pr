@@ -18,10 +18,10 @@ router.post('/register',
 );
 
 router.post('/login',
+    upload.none(),
     body('email').notEmpty().withMessage('Email is required')
         .isEmail().withMessage('Invalid email'),
-    body('password').isLength({ min: 5 })
-        .withMessage('Password must be at least 5 characters'),
+    body('password'),
     validate,
     login
 );

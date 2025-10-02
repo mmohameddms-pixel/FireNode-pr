@@ -1,10 +1,10 @@
 // models/commentModel.js
-const { db } = require("../config/firebase");
-const { FieldValue } = require("firebase-admin/firestore");
+import { db } from "../config/firebase.js";
+import { FieldValue } from "firebase-admin/firestore";
 
 const commentsCollection = db.collection("comments");
 
-class CommentModel {
+export default class CommentModel {
   static async createComment({ postId, userId, content }) {
     const newComment = {
       postId,
@@ -55,4 +55,4 @@ class CommentModel {
   }
 }
 
-module.exports = CommentModel;
+// module.exports = CommentModel;
