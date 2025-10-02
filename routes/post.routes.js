@@ -11,15 +11,15 @@ postRoutes.post('/posts', authenticate, upload.single('image'), addPost);
 
 postRoutes.get('/posts', authenticate, getAllPosts);
 
-postRoutes.get('/user/posts', authenticate, getUserPosts);
-
 postRoutes.get('/posts/:id', authenticate, getSinglePost);
 
-postRoutes.put('/posts/:id', isPostOwner, updatePost);
+postRoutes.get('/user/posts', isPostOwner, getUserPosts);
 
-postRoutes.delete('/posts/:id', isPostOwner, deletePost);
+postRoutes.put('user/posts/:id', isPostOwner, updatePost);
 
-postRoutes.delete('/posts/:id', isAdmin, deleteAnyPost);
+postRoutes.delete('user/posts/:id', isPostOwner, deletePost);
+
+postRoutes.delete('admin/posts/:id', isAdmin, deleteAnyPost);
 
 
 export default postRoutes;
