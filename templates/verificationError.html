@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification Failed</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --error-color: #e74c3c;
+            /* Alerting, modern red */
+            --text-color: #34495e;
+            --bg-color: #ecf0f1;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            /* Full viewport height */
+            color: var(--text-color);
+        }
+
+        .container {
+            padding: 40px;
+            border-radius: 12px;
+            background-color: var(--white);
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .icon {
+            font-size: 48px;
+            color: var(--error-color);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--error-color);
+            font-size: 24px;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .btn-container {
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--white);
+            background-color: var(--error-color);
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            /* Ensure the cursor is pointer for accessibility */
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            box-shadow: 0 4px 10px rgba(231, 76, 60, 0.4);
+        }
+
+        .btn:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        #responseMessage {
+            font-weight: 600;
+            font-size: 14px;
+            min-height: 1.6em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="icon">❌</div>
+        <h1>Email Verification Failed!</h1>
+        <p>Sorry, the verification link is **invalid or expired**. Please click the button below to receive a new
+            verification email.</p>
+
+        <div class="btn-container">
+            <a href="#" class="btn" id="resendButton" role="button">Resend Verification Email</a>
+        </div>
+
+        <p id="responseMessage"></p>
+    </div>
+
+    <script src="/resendVerification.js"></script>
+</body>
+
+</html>
