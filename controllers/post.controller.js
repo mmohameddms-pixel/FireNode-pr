@@ -19,6 +19,10 @@ const addPost = async (req, res) => {
 
     const { title, content } = req.body;
 
+    if (!req.file) {    
+        return res.status(400).json({ error: 'No file uploaded' });
+    }
+
     const fileBuffer = req.file.buffer;
     const imageUrl = fileBuffer ? (await uploadFileToImgBB(fileBuffer)) : null;
 
@@ -50,7 +54,6 @@ const getAllPosts = async (req, res) => {
         if (snapshot.empty) {
             return res.status(404).json({ msg: 'No posts found' });
         }
-        console.log("sdfsfsdfs" + snapshot)
         const Posts = [];
         snapshot.forEach(doc => {
             Posts.push({ id: doc.id, ...doc.data() })
@@ -86,6 +89,7 @@ const getSinglePost = async (req, res) => {
     try {
         const postId = req.params.id;
         const singlePost = (await postRef.doc(postId).get()).data();
+        console.log(singlePost)
         res.status(200).json({ msg: `single Post`, postId, singlePost })
     } catch (error) {
         res.status(500).json({ msg: 'Error single post', error: error.message });
@@ -95,7 +99,6 @@ const getSinglePost = async (req, res) => {
 
 const updatePost = async (req, res) => {
     const updatedPost = req.body;
-    console.log(updatePost)
     const postId = req.params.id;
 
     if (!updatedPost || Object.keys(updatedPost).length === 0) {
@@ -132,7 +135,6 @@ const deletePost = async (req, res) => {
 
 const deleteAnyPost = async (req, res) => {
     try {
-        console.log("deleteeee")
         await postRef.doc(req.params.id).delete();
         res.status(200).send('Post deleted')
     } catch (error) {
