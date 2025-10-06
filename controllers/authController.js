@@ -8,6 +8,7 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { getUserById } from '../repositories/userRepository.js';
 import jwt from "jsonwebtoken";
+
 export const register = async (req, res) => {
   try {
     const { email, password, name } = req.body;

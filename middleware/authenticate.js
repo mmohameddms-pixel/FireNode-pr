@@ -4,7 +4,6 @@ import { config } from '../config/config.js';
 const SECRET_KEY = config.jwt.secretKey;
 
 export const authenticate = (req, res, next) => {
-  console.log("authenticate")
   const token = req.headers.authorization;
   if (!token) {
     res.status(401).json({ message: "Authentication required" });
