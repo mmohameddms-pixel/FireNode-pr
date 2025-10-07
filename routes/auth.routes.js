@@ -38,4 +38,4 @@ router.post('/resend-verification-email',
     resendVerificationEmail
 );
 
-export default router;
+export default router

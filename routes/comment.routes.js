@@ -5,7 +5,7 @@ import { authenticate } from '../middleware/authenticationMiddleware.js';
 const router = Router();
 
 
-router.post("/:postId", authenticate, createComment);
+router.post("/", authenticate, createComment);
 router.get("/:postId", authenticate, getCommentsByPost);
 router.put("/:commentId", authenticate, updateComment);
 router.delete("/:commentId", authenticate, deleteComment);

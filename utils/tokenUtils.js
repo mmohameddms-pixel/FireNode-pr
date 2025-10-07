@@ -14,5 +14,6 @@ export const generateVerificationToken = (uid) => {
 };
 
 export const generateSessionToken = (uid, role) => {
+  console.log(config.jwt.secretKey);
   return jwt.sign({ uid, role }, config.jwt.secretKey, { expiresIn: '7d' });
 };
